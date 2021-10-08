@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blackjack</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-image: url(img/bj1.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            overflow-y: hidden;
+        }
+        #button{
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            left: 860px;
+            top: 400px;
+            font-size: 30px;
+            line-height: 100px;
+            text-align: center;
+            color: white;
+            background-image: url(img/buttonplay.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #button1{
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            left: 860px;
+            top: 600px;
+            font-size: 30px;
+            line-height: 100px;
+            text-align: center;
+            color: white;
+            background-image: url(img/buttonplay.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #rules{
+            position: absolute;
+            width: 1000px;
+            height: 500px;
+            left: -1000px;
+            top: 150px;
+            font-size: 17px;
+            padding-top: 100px;
+            transition: all 2s;
+            color: black;
+            font-weight: bolder;
+            background-image: url(img/1.jpg);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #rules>h1{
+            margin: 10px;
+        }
+        #rules>p{
+            margin: 5px;
+        }
+        #back{
+            position: absolute;
+            width: 110px;
+            height: 65px;
+            line-height: 65px;
+            background-color: yellow;
+            left: 775px;
+            top: 525px;
+            font-size: 40px;
+            padding-left: 90px;
+            background-image: url(img/2.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #wrap{
+            width: 1500px;
+            height: 970px;
+            margin: 0 auto;
+            position: relative;
+            background-image: url(img/牌桌.png);
+            top: -1000px;
+            transition: all 2s;
+        }
+        #changecounter{
+            position: absolute;
+            width: 320px;
+            height: 50px;
+            color: white;
+            left: 50px;
+            top: 10px;
+            font-size: 30px;
+            padding-top: 10px;
+        }
+        #showhand{
+            margin-left: 5px;
+        }
+        #level{
+            position: absolute;
+            width: 200px;
+            height: 60px;
+            left: 850px;
+            top: 5px;
+            font-size: 40px;
+            color: goldenrod;
+            padding-left: 60px;
+            padding-top: 40px;
+            background-image: url(img/levels.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        #computer{
+            width: 1200px;
+            height: 400px;
+            position: absolute;
+            left: 150px;
+            top:0;
+        }
+        #people{
+            width: 1200px;
+            height: 400px;
+            margin: 0 auto;
+            position: absolute;
+            left: 150px;
+            top: 570px;
+        }
+        #start{
+            width: 150px;
+            height: 100px;
+            position: absolute;
+            top: 435px;
+            left: 110px;
+            line-height: 100px;
+            font-size: 24px;
+            text-align: center;
+            background-image: url(img/5.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        #continue{
+            width: 150px;
+            height: 100px;
+            position: absolute;
+            top: 435px;
+            left: 450px;
+            line-height: 100px;
+            font-size: 24px;
+            text-align: center;
+            background-image: url(img/5.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        #stop{
+            width: 150px;
+            height: 100px;
+            position: absolute;
+            top: 435px;
+            left: 790px;
+            line-height: 100px;
+            font-size: 24px;
+            text-align: center;
+            background-image: url(img/5.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        #reflash{
+            width: 150px;
+            height: 100px;
+            position: absolute;
+            top: 435px;
+            left: 1130px;
+            line-height: 100px;
+            font-size: 24px;
+            text-align: center;
+            background-image: url(img/5.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        .peoplebox{
+            width: 150px;
+            height: 217px;
+            position: absolute;
+            left: 0;
+            top: 90px;
+            transition: all 2s;
+            opacity: 0;
+        }
+        .computerbox{
+            width: 150px;
+            height: 217px;
+            position: absolute;
+            left: 0;
+            top: 110px;
+            transition: all 2s;
+            transform: rotate3d(0,1,0,0deg);
+            transform-style: preserve-3d;
+            opacity: 0;
+        }
+        .face{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 217px;
+            color: black;
+            font-size: 100px;
+            text-align: center;
+            line-height: 217px;
+            transform: rotateY(180deg);
+            background-image: url(img/face1.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        .peopleface{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 217px;
+            color: black;
+            font-size: 100px;
+            text-align: center;
+            line-height: 217px;
+            background-image: url(img/face1.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        .back{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 217px;
+            backface-visibility: hidden;
+            transition: all 2s;
+            background-image: url(img/牌背.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+        #computerallsum{
+            position: absolute;
+            top: 10px;
+            left: 345px;
+            height: 40px;
+            width: 500px;
+            font-size: 40px;
+            text-align: center;
+            color: white;
+
+        }
+        #peopleallsum{
+            position: absolute;
+            top: 345px;
+            height: 40px;
+            width: 1200px;
+            font-size: 40px;
+            text-align: center;
+            color: white;
+        }
+        #computerscore{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 1100px;
+            top: 310px;
+            font-size: 100px;
+            text-align: center;
+            line-height: 100px;
+            color: white;
+            opacity: 0;
+            transition: all 1s;
+            background-image: url(img/bj3.jpg);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #peoplescore{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 1100px;
+            top: 0;
+            font-size: 100px;
+            text-align: center;
+            line-height: 100px;
+            color: white;
+            opacity: 0;
+            transition: all 1s;
+            background-image: url(img/bj3.jpg);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #computercounter{
+            width: 450px;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+            position: absolute;
+            left: -125px;
+            top: 325px;
+            font-size: 30px;
+            color: white;
+            padding-left: 15px;
+        }
+        #peoplecounter{
+            width: 450px;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+            position: absolute;
+            left: -125px;
+            top: -10px;
+            font-size: 30px;
+            color: white;
+        }
+        #superdouble{
+            width: 220px;
+            height: 50px;
+            position: absolute;
+            left: 490px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 25px;
+            opacity: 0;
+            color: gold;
+            background-image: url(img/superdoublebutton.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        #cheat{
+            width: 150px;
+            height: 50px;
+            position: absolute;
+            left: 850px;
+            text-align: center;
+            opacity: 0;
+            font-size: small;
+            padding-top: 20px;
+            padding-left: 20px;
+            color: white;
+            background-image: url(img/cheating.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        #restart{
+            width: 250px;
+            height: 100px;
+            font-size: 30px;
+            line-height: 100px;
+            text-align: center;
+            position: absolute;
+            left: 1200px;
+            top: 825px;
+            color: white;
+            background-image: url(img/restart.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            opacity: 0;
+        }
+        #button,#start,#stop,#cheat,#superdouble,#continue,#reflash,#showhand,#button1,#back,#restart:hover{
+            cursor:pointer
+        }
+        .computerbox:hover{
+            border: solid 1px red;
+        }
+        .peoplebox:hover{
+            border: solid 1px red;
+        }
+    </style>
+</head>
+<body>
+<div id="button">进入游戏</div>
+<div id="button1">规则介绍</div>
+<div id="rules">
+    <h1 style="text-indent: 1em">二十一点游戏规则：</h1>
+    <p style="text-indent: 2em">游戏总分三关，均是由玩家对抗电脑智能AI，根据关卡的逐渐加深，AI的难度也逐渐增大。</p>
+    <p style="text-indent: 2em">第一关AI最多只会抽4张牌，第二关则变成了5张，第三关变为了和玩家一致的6张。</p>
+    <p style="text-indent: 2em">玩家抽到的数字牌中J、Q、K均表示为0.5；</p>
+    <p style="text-indent: 2em">当双方手牌总点数均未超过21点的情况下，在双方弃牌后进行结算，点数大的将获得当前小局的筹码，另一方则扣除对应筹码。</p>
+    <p style="text-indent: 2em">当双方中有一方手牌中的总点数超过了21点，当前小局立即结束并进行结算。</p>
+    <p style="text-indent: 2em">当双方总点数均超过21点，筹码被庄家通吃。</p>
+    <p style="text-indent: 2em">当双方总点数都恰好等于21点，庄家将发放当前小局的筹码作为奖金进行奖励。</p>
+    <p style="text-indent: 2em">在发牌前玩家可通过调节筹码调节当前小局筹码，在对局开始后则只能通过超级加倍进行改变筹码。</p>
+    <p style="text-indent: 2em">超级加倍为当前筹码数乘10倍。</p>
+    <p style="text-indent: 2em">作弊模式20筹码一次，作用为翻开当前对手的手牌。</p>
+    <p style="text-indent: 2em">第一关AI的筹码数为1000枚，第二关为5000枚，第三关为10000枚。</p>
+    <p style="text-indent: 2em">当一方筹码数小于等于0本局游戏结束。</p>
+    <div id="back">返回</div>
+</div>
+<div id="wrap">
+    <div id="computer">
+        <div id="changecounter">调节筹码: <input type="number" value="10" id="textin" style="width: 65px;height: 20px"><button id="showhand" style="height: 26px">确定调节</button></div>
+        <div id="level">LEVEL <span id="levels"></span></div>
+        <div id="computerallsum">点数是：<span id="sum1">?</span></div>
+        <div id="computerscore"></div>
+        <div id="computercounter"><img src="img/chip.png" width="50" height="50"/>&nbsp;电脑剩余筹码： <span id="counter1"></span> 枚</div>
+    </div>
+    <div id="start">开始发牌</div>
+    <div id="continue">再来一张</div>
+    <div id="stop">弃牌</div>
+    <div id="reflash">再来一轮</div>
+    <div id="people">
+        <div id="peopleallsum">点数是：<span id="sum2">?</span></div>
+        <div id="peoplescore"></div>
+        <div id="peoplecounter"><img src="img/chip.png" width="50" height="50"/>&nbsp;您剩余筹码： <span id="counter2"></span> 枚</div>
+        <div id="superdouble" align="center">超级加倍</div>
+        <div id="cheat">作弊模式<br/>（20筹码/次）</div>
+    </div>
+    <div id="restart">重新开始游戏</div>
+</div>
+<script>
+    var button=document.getElementById('button');
+    var buttton1=document.getElementById('button1');
+    var rules=document.getElementById('rules');
+    var back=document.getElementById('back');
+    var wrap=document.getElementById('wrap');
+    var computer=document.getElementById('computer');
+    var people=document.getElementById('people');
+    var peoplenum=document.getElementsByClassName('peoplebox');
+    var computernum=document.getElementsByClassName('computerbox');
+    var start=document.getElementById('start');
+    var continues=document.getElementById('continue');
+    var stop=document.getElementById('stop');
+    var reflash=document.getElementById('reflash');
+    var peoplescore=document.getElementById('peoplescore');
+    var computerscore=document.getElementById('computerscore');
+    var computercounter=document.getElementById('computercounter');
+    var peoplecounter=document.getElementById('peoplecounter');
+    var counter1=document.getElementById('counter1');
+    var counter2=document.getElementById('counter2');
+    var superdouble=document.getElementById('superdouble');
+    var cheat=document.getElementById('cheat');
+    var textin=document.getElementById('textin');
+    var showhand=document.getElementById('showhand');
+    var level=document.getElementById('levels');
+    var levelall=document.getElementById('level');
+    var restart=document.getElementById('restart');
+    var peoplesum=0;
+    var computersum=0;
+    peoplescore.innerHTML=0;
+    computerscore.innerHTML=0;
+    counter1.innerHTML=1000;
+    counter2.innerHTML=1000;
+    var money=parseInt(textin.value);
+    var num1=parseInt(counter1.innerHTML);
+    var num2=parseInt(counter2.innerHTML);
+    level.innerHTML=1;
+    var levels=parseInt(level.innerHTML)+3;
+    var flag=true;//点击弃牌后不能点击再来一张
+    var flag1=true;//点击弃牌结算后不能点击弃牌重复结算
+    button.onclick=function () {
+       wrap.style.top=0;
+       button.style.left='-700px';
+       button1.style.left='-700px';
+    };
+    button1.onclick=function () {
+        rules.style.left='510px';
+        button.style.left='-700px';
+        button1.style.left='-700px';
+    };
+    back.onclick=function () {
+        button.style.left='860px';
+        button1.style.left='860px';
+        rules.style.left='-1000px';
+    };
+    function peoplecreatcard() {
+        var cardnum=Math.floor(Math.random()*13+1);
+        var box=document.createElement('div');
+        var face=document.createElement('div');
+        var sumarea=document.getElementById('sum2');
+        box.className='peoplebox';
+        face.className='peopleface';
+        if(cardnum==11){
+            face.innerHTML='J';
+            peoplesum+=0.5;
+        }else if(cardnum==12){
+            face.innerHTML='Q';
+            peoplesum+=0.5;
+        }else if(cardnum==13){
+            face.innerHTML='K';
+            peoplesum+=0.5;
+        }else {
+            face.innerHTML=cardnum;
+            peoplesum+=cardnum;
+        }
+        box.appendChild(face);
+        people.appendChild(box);
+        sumarea.innerHTML=peoplesum;
+        setTimeout(function () {
+            show();
+        });
+    }
+    function computercreatcard() {
+        var cardnum=Math.floor(Math.random()*13+1);
+        var box=document.createElement('div');
+        var face=document.createElement('div');
+        var back=document.createElement('div');
+        box.className='computerbox';
+        face.className='face';
+        back.className='back';
+        box.appendChild(face);
+        box.appendChild(back);
+        computer.appendChild(box);
+        if(cardnum==11){
+            face.innerHTML='J';
+            computersum+=0.5;
+        }else if(cardnum==12){
+            face.innerHTML='Q';
+            computersum+=0.5;
+        }else if(cardnum==13){
+            face.innerHTML='K';
+            computersum+=0.5;
+        }else {
+            face.innerHTML=cardnum;
+            computersum+=cardnum;
+        }
+        setTimeout(function () {
+            show();
+        });
+    }
+    function computeronemore() {
+        var computernum=document.getElementsByClassName('computerbox');
+        if(computernum.length>0){
+            if(computernum.length<levels){
+                computercreatcard();
+            }
+        }
+    }
+    function peopleonemore() {
+        if(peoplenum.length>0){
+            if(peoplenum.length<6){
+                peoplecreatcard();
+            }else {
+                alert('您的手牌已达上限');
+                stops();
+            }
+        }else {
+            alert('您还没开始游戏');
+        }
+    }
+    start.onclick=function () {
+        var sumarea=document.getElementById('sum1');
+        textin.readOnly=true;
+        superdouble.style.opacity=1;
+        peoplescore.style.opacity=1;
+        computerscore.style.opacity=1;
+        flag=true;
+        flag1=true;
+        if(computernum.length==0 &&peoplenum.length==0){
+            peoplecreatcard();
+            computercreatcard();
+            setTimeout(function () {
+                computernum[0].style.transform='rotateY(180deg)';
+            },1500);
+            sumarea.innerHTML=computersum;
+        }else {
+            alert('您已有牌')
+        }
+    };
+    continues.onclick=function () {
+        var sumarea=document.getElementById('sum1');
+        if(flag){
+            sumarea.innerHTML='?';
+            cheat.style.opacity=1;
+            computeronemore();
+            peopleonemore();
+            checked();
+        }
+    };
+    function stops() {
+        var computerin=document.getElementsByClassName('computerbox');
+        var sumarea=document.getElementById('sum1');
+        flag=false;
+        if(computerin.length!==1){
+            if(flag1){
+                if(computerin.length!==0){
+                    for (var i=1;i<computerin.length;i++){
+                        computerin[i].style.transform='rotateY(180deg)';
+                    }
+                    sumarea.innerHTML=computersum;
+                    if(computersum>peoplesum){
+                        alert('胜败乃兵家常事，请大侠从头再来');
+                        computerscore.innerHTML++;
+                        num1+=money;
+                        counter1.innerHTML=num1;
+                        num2-=money;
+                        counter2.innerHTML=num2;
+                    }else if(computersum<peoplesum){
+                        alert('电脑：“我承认你打败我了，迎接你下一个对手吧，它的名字是AlphaGo”');
+                        peoplescore.innerHTML++;
+                        num2+=money;
+                        counter2.innerHTML=num2;
+                        num1-=money;
+                        counter1.innerHTML=num1;
+                    }else if (computersum==peoplesum && peoplesum!==21){
+                        alert('双方打得难舍难分，快再来大战三百回合吧！');
+                        alert('由于双方平局且均小于21点，奖金发放');
+                        num1+=money;
+                        counter1.innerHTML=num1;
+                        num2+=money;
+                        counter2.innerHTML=num2;
+                    }else {
+                        alert('双方打得难舍难分，快再来大战三百回合吧！');
+                        alert('由于双方平局且均等于21点，奖金十倍发放');
+                        num1+=money*10;
+                        counter1.innerHTML=num1;
+                        num2+=money*10;
+                        counter2.innerHTML=num2;
+                    }
+                }else {
+                    alert('您还没开始游戏')
+                }
+            }
+            endgame();
+            flag1=false;
+        }else {
+            alert('您只有一张牌，不允许弃牌');
+            flag=true;
+        }
+    }
+    stop.onclick=function () {
+        stops();
+    };
+    function reflashs() {
+        var computerin=document.getElementsByClassName('computerbox');
+        var peoplein=document.getElementsByClassName('peoplebox');
+        var sumarea1=document.getElementById('sum1');
+        var sumarea2=document.getElementById('sum2');
+        for (var i=computerin.length-1;i>=0;i--){
+            computer.removeChild(computerin[i]);
+        }
+        for (var i=peoplein.length-1;i>=0;i--){
+            people.removeChild(peoplein[i]);
+        }
+        peoplesum=0;
+        computersum=0;
+        sumarea1.innerHTML='?';
+        sumarea2.innerHTML='?';
+        money=10;
+        textin.value=10;
+        textin.readOnly=false;
+        superdouble.style.opacity=0;
+        cheat.style.opacity=0;
+        flag1=true;
+    }
+    reflash.onclick=function () {
+        reflashs();
+    };
+    function checked() {
+        var peoplescore=document.getElementById('peoplescore');
+        var computerscore=document.getElementById('computerscore');
+        var sumarea=document.getElementById('sum1');
+        var computerin=document.getElementsByClassName('computerbox');
+        if(computersum<=21&&peoplesum>21){
+            setTimeout(function () {
+                for (var i=0;i<computerin.length;i++){
+                    computerin[i].style.transform='rotateY(180deg)';
+                }
+            },2000);
+            setTimeout(function () {
+                alert('因为你的贪心，对面不战而胜了');
+            },3000);
+            sumarea.innerHTML=computersum;
+            computerscore.innerHTML++;
+            num1+=money;
+            counter1.innerHTML=num1;
+            num2-=money;
+            counter2.innerHTML=num2;
+            flag=false;
+        }else if(peoplesum<=21&&computersum>21){
+            setTimeout(function () {
+                alert('因为你的胆大心细，你成功击败了对方');
+            },3000);
+            setTimeout(function () {
+                for (var i=0;i<computerin.length;i++){
+                    computerin[i].style.transform='rotateY(180deg)';
+                }
+            },2000);
+            sumarea.innerHTML=computersum;
+            peoplescore.innerHTML++;
+            num2+=money;
+            counter2.innerHTML=num2;
+            num1-=money;
+            counter1.innerHTML=num1;
+            flag=false;
+        }else if(peoplesum>21&&computersum>21){
+            setTimeout(function () {
+                alert('双方点数都超过21点，筹码归庄家所有');
+            },3000);
+            setTimeout(function () {
+                for (var i=0;i<computerin.length;i++){
+                    computerin[i].style.transform='rotateY(180deg)';
+                }
+            },2000);
+            sumarea.innerHTML=computersum;
+            num1-=money;
+            counter1.innerHTML=num1;
+            num2-=money;
+            counter2.innerHTML=num2;
+            flag=false;
+        }
+        endgame();
+    }
+    superdouble.onclick=function () {
+        if(flag1){
+            if(money*10<=num1||money*10<=num2){
+                money*=10;
+                alert('本小局筹码已超级加倍，当前筹码：'+money+'枚')
+            }else {
+                alert('赌博有风险，下注需谨慎。本小局最终筹码为：'+money+'枚');
+            }
+        }
+    };
+    cheat.onclick=function () {
+        var computerin=document.getElementsByClassName('computerbox');
+        if(flag1){
+            if(num2<20){
+                alert('您的余额不足，不能开启作弊模式');
+            }else {
+                for (var i=0;i<computerin.length;i++){
+                    computerin[i].style.transform='rotateY(180deg)';
+                }
+                num2-=20;
+                counter2.innerHTML=num2;
+            }
+        }
+    };
+    function endgame() {
+        if(num2<=0){
+            setTimeout(function () {
+                alert('游戏结束，您输了，5秒后将重新开始挑战');
+            },4000);
+           setTimeout(function () {
+               location.reload()
+           },4000)
+        }else if(num1<=0){
+            if(level.innerHTML<4){
+                setTimeout(function () {
+                    if(level.innerHTML<=2){
+                        alert('游戏结束，您赢了，5秒后将挑战下一位对手');
+                    }else if(level.innerHTML==3){
+                        alert('正在结算中，请稍等。。。')
+                    }
+                },4000);
+                setTimeout(function () {
+                    level.innerHTML++;
+                    levels=parseInt(level.innerHTML)+3;
+                    if(level.innerHTML==2){
+                        reflashs();
+                        computerscore.innerHTML=0;
+                        peoplescore.innerHTML=0;
+                        counter1.innerHTML=5000;
+                        num1=5000;
+                        peoplescore.style.opacity=0;
+                        computerscore.style.opacity=0;
+                    }else if(level.innerHTML==3){
+                        reflashs();
+                        computerscore.innerHTML=0;
+                        peoplescore.innerHTML=0;
+                        counter1.innerHTML=10000;
+                        num1=10000;
+                        peoplescore.style.opacity=0;
+                        computerscore.style.opacity=0;
+                    }else if(level.innerHTML==4){
+                        alert('恭喜您通关了所有关卡，\n您的筹码将以转账的形式进入您的账户，\n请注意查收。');
+                        levelall.innerHTML='WINNER';
+                        levelall.style.color='gold';
+                        levelall.style.paddingLeft='50px';
+                        restart.style.opacity=1;
+                        reflash.style.left='-700px';
+                        start.style.left='-700px';
+                        continues.style.left='-700px';
+                        stop.style.left='-700px';
+                        superdouble.style.left='-700px';
+                        cheat.style.left='-700px';
+                    }
+                },4000)
+            }
+        }
+    }
+    function show() {
+        for (var i=0;i<peoplenum.length;i++){
+            var lefts=i*160+10;
+            peoplenum[i].style.left=lefts+'px';
+            peoplenum[i].style.opacity=1;
+        }
+        for (var j=0;j<computernum.length;j++){
+            var lefts=j*160+10;
+            computernum[j].style.left=lefts+'px';
+            computernum[j].style.opacity=1;
+        }
+    }
+    showhand.onclick=function () {
+        if(textin.value<=num1||textin.value<=num2){
+            money=parseInt(textin.value);
+            alert('调节成功，当前筹码数为：'+money+'枚');
+        }else {
+            alert('当局的筹码已经够多了');
+        }
+    };
+    restart.onclick=function () {
+        location.reload();
+    }
+</script>
+</body>
+</html>
